@@ -1,5 +1,5 @@
 /**
- * Zilol Suv — ariza (lid) yuboruvchi serverless funksiya.
+ * Aquarich — ariza (lid) yuboruvchi serverless funksiya.
  *
  * Vercel: avtomatik `/api/lead` endpoint.
  *
@@ -20,7 +20,9 @@ function escapeHtml(str) {
 
 function buildMessage(data) {
   const isB2b = (data.form_type || "").toUpperCase() === "B2B";
-  const title = isB2b ? "🏢 <b>YANGI B2B SO'ROV</b>" : "🏠 <b>YANGI B2C ARIZA</b>";
+  const title = isB2b
+    ? "🏢 <b>Aquarich — YANGI B2B SO'ROV</b>"
+    : "🏠 <b>Aquarich — YANGI B2C ARIZA</b>";
   const rows = [title, ""];
 
   if (data.company) rows.push("🏷 <b>Kompaniya:</b> " + escapeHtml(data.company));

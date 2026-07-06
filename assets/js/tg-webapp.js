@@ -9,14 +9,24 @@
   tg.ready();
   tg.expand();
 
+  /* Telegram WebView balandligi — CSS da ishlatiladi */
+  function applyViewport() {
+    var h = tg.viewportStableHeight || tg.viewportHeight || window.innerHeight;
+    document.documentElement.style.setProperty("--tg-viewport-stable-height", h + "px");
+  }
+  applyViewport();
+  if (typeof tg.onEvent === "function") {
+    tg.onEvent("viewportChanged", applyViewport);
+  }
+  window.addEventListener("resize", applyViewport, { passive: true });
+
   // Telegram Ads / bot ichida yopishni tasdiqlash
   if (typeof tg.enableClosingConfirmation === "function") {
     tg.enableClosingConfirmation();
   }
 
-  // Header rangi
   if (typeof tg.setHeaderColor === "function") {
-    tg.setHeaderColor("#0a6bdc");
+    tg.setHeaderColor("#0E86C9");
   }
   if (typeof tg.setBackgroundColor === "function") {
     tg.setBackgroundColor("#ffffff");
@@ -24,18 +34,20 @@
 
   window.__tgWebApp = tg;
 
-  /* Asosiy tugma — forma yaqinida "Yuborish" */
   var leadForm = document.getElementById("lead-form");
+
+  /* Scroll paytida MainButton — TG WebView da barqarorroq */
   if (leadForm && typeof tg.MainButton !== "undefined") {
     var mainBtn = tg.MainButton;
     mainBtn.setText("Buyurtma yuborish");
-    mainBtn.color = "#0a6bdc";
+    mainBtn.color = "#0E86C9";
     mainBtn.textColor = "#ffffff";
 
     function updateMainButton() {
       if (!leadForm) return;
       var rect = leadForm.getBoundingClientRect();
-      var visible = rect.top < window.innerHeight && rect.bottom > 0;
+      var vh = tg.viewportStableHeight || window.innerHeight;
+      var visible = rect.top < vh * 0.92 && rect.bottom > vh * 0.08;
       if (visible) {
         mainBtn.show();
       } else {
@@ -49,6 +61,9 @@
     });
 
     window.addEventListener("scroll", updateMainButton, { passive: true });
+    if (typeof tg.onEvent === "function") {
+      tg.onEvent("viewportChanged", updateMainButton);
+    }
     setTimeout(updateMainButton, 400);
   }
 

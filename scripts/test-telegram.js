@@ -27,7 +27,7 @@ if (!token || !chatId) {
 }
 
 const text =
-  "✅ <b>Test xabar — Zilol Suv</b>\n\n" +
+  "✅ <b>Test xabar — Aquarich</b>\n\n" +
   "Agar buni ko'rsangiz, bot kanal/guruhga to'g'ri ulangan.\n\n" +
   "🕒 " + new Date().toLocaleString("uz-UZ", { timeZone: "Asia/Tashkent" });
 

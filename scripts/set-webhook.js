@@ -52,7 +52,7 @@ var webhookUrl = webappUrl + "/api/telegram-webhook";
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      description: "Zilol Suv — toza suv filtrlari. /start bosing va buyurtma bering.",
+      description: "Aquarich — toza suv filtrlari. Har tomchida g'amxo'rlik. /start bosing.",
     }),
   });
 
@@ -60,7 +60,7 @@ var webhookUrl = webappUrl + "/api/telegram-webhook";
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      short_description: "Uy va biznes uchun suv filtrlari",
+      short_description: "Har tomchida g'amxo'rlik — RO suv filtrlari",
     }),
   });
 

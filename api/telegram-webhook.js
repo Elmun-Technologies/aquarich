@@ -117,9 +117,17 @@ async function processUpdate(update) {
 
 module.exports = async function handler(req, res) {
   if (req.method === "GET") {
+    var urls = bot.getWebAppUrls("start");
     res.statusCode = 200;
-    res.setHeader("Content-Type", "text/plain; charset=utf-8");
-    return res.end("Zilol Suv Telegram webhook ishlayapti ✅");
+    res.setHeader("Content-Type", "application/json; charset=utf-8");
+    return res.end(JSON.stringify({
+      ok: true,
+      message: "Aquarich Telegram webhook ishlayapti",
+      webapp_base: bot.getWebAppUrl(),
+      b2c_url: urls.b2c,
+      b2b_url: urls.b2b,
+      has_bot_token: !!bot.getToken(),
+    }, null, 2));
   }
 
   if (req.method !== "POST") {
