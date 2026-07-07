@@ -27,6 +27,21 @@ async function readBody(req) {
   });
 }
 
+async function handleHelp(chatId) {
+  await bot.sendMessage(
+    chatId,
+    "<b>Aquarich</b> — har tomchida g'amxo'rlik 💧\n\n" +
+    "🏠 <b>Uy uchun (B2C)</b>\n" +
+    "9 bosqichli RO filtr — <b>3 500 000 so'm</b>\n" +
+    "Bepul yetkazish + o'rnatish + 1 yil servis\n\n" +
+    "🏢 <b>Biznes uchun (B2B)</b>\n" +
+    "200–1000 L/kun — maktab, klinika, restoran, ofis\n\n" +
+    "📞 <b>Aloqa:</b> +998 93 456 40 00\n" +
+    "🌐 <b>Sayt:</b> aquarich.vercel.app\n\n" +
+    "Buyurtma: /start bosing 👇"
+  );
+}
+
 async function handleStart(chatId, firstName, startParam) {
   var urls = bot.getWebAppUrls(startParam || "start");
 
@@ -100,6 +115,11 @@ async function processUpdate(update) {
       var parts = text.split(/\s+/);
       var startParam = parts[1] || "";
       await handleStart(msg.chat.id, msg.from && msg.from.first_name, startParam);
+      return;
+    }
+
+    if (text.indexOf("/help") === 0) {
+      await handleHelp(msg.chat.id);
       return;
     }
 

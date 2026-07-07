@@ -154,8 +154,9 @@
     var required = [];
     form.querySelectorAll("input, select").forEach(function (el) {
       if (el.type === "hidden") return;
+      if (el.closest(".hp-field")) return; // honeypot — validatsiyadan tashqari
       var name = el.getAttribute("name");
-      if (name === "region" || name === "volume") return; // ixtiyoriy
+      if (name === "region" || name === "volume" || name === "website") return;
       required.push(el);
     });
 
@@ -173,8 +174,12 @@
         if (!validateField(el)) valid = false;
       });
       if (!valid) {
+        var firstBad = required.find(function (el) {
+          return el.closest(".field") && el.closest(".field").classList.contains("has-error");
+        });
+        if (firstBad) firstBad.focus();
         if (statusEl) {
-          statusEl.textContent = "Iltimos, maydonlarni to'g'ri to'ldiring.";
+          statusEl.textContent = "Iltimos, ism va telefonni to'g'ri kiriting.";
           statusEl.className = "form-status bad";
         }
         return;
@@ -364,6 +369,7 @@
   var stickyCta = document.getElementById("stickyCta");
   if (stickyCta && window.matchMedia("(max-width: 899px)").matches) {
     var leadForm = document.getElementById("lead-form");
+    var bottomCta = document.getElementById("bottom-cta");
 
     function updateSticky() {
       var nearForm = false;
@@ -371,6 +377,10 @@
       if (leadForm) {
         var rect = leadForm.getBoundingClientRect();
         nearForm = rect.top < window.innerHeight * 0.85;
+      }
+      if (bottomCta) {
+        var bottomRect = bottomCta.getBoundingClientRect();
+        if (bottomRect.top < window.innerHeight * 0.92) nearForm = true;
       }
       if (nearForm || !scrolledEnough) {
         stickyCta.classList.add("is-hidden");
