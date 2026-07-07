@@ -227,7 +227,13 @@
     var lead = form.closest(".lead");
     if (lead) {
       lead.classList.add("lead--success");
-      if (!lead.closest(".seg-modal")) {
+      document.body.classList.add("lead-submitted");
+      var successEl = lead.querySelector(".lead__success");
+      if (window.__tgWebApp && successEl) {
+        setTimeout(function () {
+          successEl.scrollIntoView({ behavior: "smooth", block: "center" });
+        }, 100);
+      } else if (!lead.closest(".seg-modal")) {
         lead.scrollIntoView({ behavior: "smooth", block: "center" });
       }
     }
