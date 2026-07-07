@@ -18,6 +18,17 @@ function escapeHtml(str) {
     .replace(/>/g, "&gt;");
 }
 
+function cleanUrl(url) {
+  if (!url) return "";
+  return String(url).split("#")[0].replace(/\/$/, "") || url;
+}
+
+function pageLabel(page) {
+  var p = String(page || "/");
+  if (p.indexOf("b2b") >= 0) return "B2B — biznes";
+  return "B2C — uy uchun";
+}
+
 function buildMessage(data) {
   const isB2b = (data.form_type || "").toUpperCase() === "B2B";
   const title = isB2b
@@ -31,13 +42,19 @@ function buildMessage(data) {
   if (data.region) rows.push("📍 <b>Viloyat:</b> " + escapeHtml(data.region));
   if (data.segment) rows.push("🏬 <b>Soha:</b> " + escapeHtml(data.segment));
   if (data.volume) rows.push("💧 <b>Hajm:</b> " + escapeHtml(data.volume));
-  if (data.tg_user) rows.push("📲 <b>Telegram:</b> " + escapeHtml(data.tg_user));
-  if (data.tg_id) rows.push("🆔 TG ID: " + escapeHtml(data.tg_id));
+
+  if (data.tg_user) {
+    var uname = String(data.tg_user).replace(/^@/, "");
+    rows.push(
+      "📲 <b>Telegram:</b> <a href=\"https://t.me/" + escapeHtml(uname) + "\">@" +
+      escapeHtml(uname) + "</a>"
+    );
+  }
+  if (data.tg_id) rows.push("🆔 <b>TG ID:</b> " + escapeHtml(data.tg_id));
 
   rows.push("");
   rows.push("🕒 " + new Date().toLocaleString("uz-UZ", { timeZone: "Asia/Tashkent" }));
-  if (data.page) rows.push("📄 Sahifa: " + escapeHtml(data.page));
-  if (data.url) rows.push("🔗 " + escapeHtml(data.url));
+  rows.push("📱 <b>Manba:</b> " + (data.tg_id ? "Telegram bot" : "Sayt") + " · " + pageLabel(data.page));
 
   return rows.join("\n");
 }

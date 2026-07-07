@@ -187,8 +187,9 @@
 
       var data = {};
       new FormData(form).forEach(function (v, k) { data[k] = v; });
-      data.page = location.pathname;
-      data.url = location.href;
+      data.page = location.pathname || "/";
+      // tgWebAppData hash kanalga ketmasin
+      data.url = location.origin + (location.pathname || "/") + (location.search || "");
 
       if (window.__tgWebApp && window.__tgWebApp.initDataUnsafe && window.__tgWebApp.initDataUnsafe.user) {
         var u = window.__tgWebApp.initDataUnsafe.user;
