@@ -1457,7 +1457,12 @@ section[id], [id] { scroll-margin-top: 20px; }
   display: block;
   box-shadow: none;
   border-radius: 0;
-  animation: heroFloat 5s ease-in-out infinite;
+}
+@media (max-width: 899px) {
+  .hero__product-img { animation: none; max-height: min(58vw, 340px); }
+}
+@media (min-width: 900px) {
+  .hero__product-img { animation: heroFloat 5s ease-in-out infinite; }
 }
 @media (min-width: 900px) {
   .hero__media--product { max-width: 420px; padding: 28px 24px; border-radius: var(--r-xl); }
@@ -1481,7 +1486,7 @@ section[id], [id] { scroll-margin-top: 20px; }
   .section-head .copy-bridge { font-size: .96rem; }
 
   /* Hero — matn birinchi, rasm keyin */
-  .hero { padding: clamp(24px, 6vw, 32px) 0 clamp(36px, 8vw, 44px); }
+  .hero { padding: clamp(24px, 6vw, 32px) 0 clamp(36px, 8vw, 44px); overflow: visible; }
   .hero__inner { gap: clamp(18px, 4vw, 24px); }
   .hero__copy { order: 1; gap: 16px; }
   .hero__media { order: 2; width: 100%; }
@@ -1638,106 +1643,115 @@ section[id], [id] { scroll-margin-top: 20px; }
 
 /* ---------- Telegram Mini App (Web App) ---------- */
 html.tg-webapp {
-  --app-vh: var(--tg-viewport-stable-height, 100dvh);
+  height: auto;
   -webkit-text-size-adjust: 100%;
 }
 html.tg-webapp body {
-  padding-bottom: calc(8px + env(safe-area-inset-bottom, 0px)) !important;
-  min-height: var(--app-vh);
+  min-height: 0 !important;
+  height: auto !important;
+  overflow-x: hidden;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)) !important;
 }
 html.tg-webapp .floaters,
 html.tg-webapp .sticky-cta { display: none !important; }
 
-/* Animatsiyalar WebView da silliq emas — o'chiramiz */
-html.tg-webapp .reveal {
-  opacity: 1 !important;
-  transform: none !important;
-  transition: none !important;
-}
+/* TG header bor — ikkinchi header kerak emas */
+html.tg-webapp .brand-bar { display: none !important; }
+
+/* Animatsiya va reveal — WebView da kesilish oldini olish */
+html.tg-webapp .reveal,
 html.tg-webapp .hero__product-img,
 html.tg-webapp .hero__img--float,
 html.tg-webapp .feature-split__img--float,
 html.tg-webapp .hero__glow,
+html.tg-webapp .hero__product-ring,
 html.tg-webapp .cta-pulse,
 html.tg-webapp .photo-strip__track {
+  opacity: 1 !important;
+  transform: none !important;
   animation: none !important;
+  transition: none !important;
 }
 html.tg-webapp .cta-pulse::after { display: none; }
 
 html.tg-webapp .hero {
-  padding-top: 8px;
-  padding-bottom: clamp(20px, 4vw, 28px);
+  overflow: visible !important;
+  padding: 10px 0 20px;
 }
-html.tg-webapp .hero__inner { gap: 14px; }
+html.tg-webapp .hero__inner { gap: 12px; }
+html.tg-webapp .hero__media,
 html.tg-webapp .hero__media--product {
   width: 100%;
-  max-width: none;
-  padding: 10px 12px;
+  max-width: 100%;
+  overflow: visible;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
   border-radius: var(--r);
+  padding: 10px;
 }
-html.tg-webapp .hero__product-img {
-  max-height: min(48vw, 260px);
+html.tg-webapp .hero__product-img,
+html.tg-webapp .hero__img--float {
   width: 100%;
+  max-width: 100%;
+  max-height: none;
+  height: auto;
+  object-fit: contain;
 }
 html.tg-webapp .hero__price-chip {
+  position: relative;
+  bottom: auto; left: auto; transform: none;
   margin-top: 8px;
-  padding: 10px 14px;
-  font-size: .88rem;
+  width: 100%;
+  white-space: normal;
 }
-html.tg-webapp .hero__price-chip b { font-size: 1.1rem; }
 html.tg-webapp .hero__trust {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 6px;
   padding: 10px;
 }
-html.tg-webapp .section {
-  padding: clamp(28px, 6vw, 40px) 0;
-}
-html.tg-webapp .section-head { margin-bottom: 20px; }
-html.tg-webapp .stats-section { padding: 12px 0; }
-html.tg-webapp .stats-bar {
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-}
-html.tg-webapp .stat-item { padding: 10px 4px; }
-html.tg-webapp .stat-item b { font-size: clamp(.95rem, 3.5vw, 1.15rem); }
-html.tg-webapp .stat-item span { font-size: .62rem; margin-top: 4px; }
+html.tg-webapp .hero__trust li { font-size: .68rem; gap: 4px; }
+html.tg-webapp .hero__trust .ic { width: 16px; height: 16px; }
+
+html.tg-webapp .section { padding: 28px 0; }
+html.tg-webapp .section-head { margin-bottom: 18px; }
+html.tg-webapp .stats-section { padding: 10px 0; }
+html.tg-webapp .stats-bar { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+html.tg-webapp .stat-item { padding: 8px 4px; }
+html.tg-webapp .stat-item b { font-size: .9rem; }
+html.tg-webapp .stat-item span { font-size: .58rem; line-height: 1.25; }
+
 html.tg-webapp .photo-strip {
-  padding: 12px 0;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding: 10px 0;
 }
 html.tg-webapp .photo-strip__track {
-  animation: none;
-  width: auto;
-  overflow-x: visible;
-  gap: 10px;
+  width: max-content;
   padding-inline: 16px;
+  gap: 8px;
 }
 html.tg-webapp .photo-strip__track img {
-  width: clamp(72px, 20vw, 100px);
+  width: 76px;
+  flex-shrink: 0;
 }
 html.tg-webapp .photo-strip__fade { display: none; }
+
 html.tg-webapp .feature-split__media,
-html.tg-webapp .hero__img--float,
 html.tg-webapp .steps__visual {
   width: 100%;
-  max-width: min(280px, 85vw);
+  max-width: min(300px, 90vw);
   margin-inline: auto;
 }
-html.tg-webapp .kit-showcase__img-wrap { padding: 10px; }
-html.tg-webapp .b2b-banner { padding-bottom: 16px; }
-html.tg-webapp .price-card__price { font-size: clamp(1.65rem, 7.5vw, 2rem); }
-html.tg-webapp .brand-bar {
-  position: relative;
-  padding: 6px 0;
-}
-html.tg-webapp .brand-bar__tagline,
-html.tg-webapp .brand-bar__link { display: none; }
+html.tg-webapp .container { padding-inline: 14px; }
+
 html.tg-webapp .bottom-cta {
-  padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
-  background: transparent;
+  padding: 16px 0 calc(88px + env(safe-area-inset-bottom, 0px));
+  background: var(--bg-soft);
 }
 html.tg-webapp .bottom-cta__card {
-  border-radius: var(--r);
   padding: 14px;
-  box-shadow: var(--sh-sm);
+  border-radius: var(--r);
 }
-html.tg-webapp .container { padding-inline: clamp(14px, 4vw, 18px); }
+html.tg-webapp .price-card__price { font-size: clamp(1.6rem, 7vw, 1.95rem); }

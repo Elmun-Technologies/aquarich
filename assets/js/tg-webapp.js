@@ -8,9 +8,13 @@
   document.documentElement.classList.add("tg-webapp");
   tg.ready();
   tg.expand();
+  if (typeof tg.disableVerticalSwipes === "function") {
+    tg.disableVerticalSwipes();
+  }
 
-  /* Telegram WebView balandligi — CSS da ishlatiladi */
+  /* Telegram WebView — scroll va balandlik */
   function applyViewport() {
+    tg.expand();
     var h = tg.viewportStableHeight || tg.viewportHeight || window.innerHeight;
     document.documentElement.style.setProperty("--tg-viewport-stable-height", h + "px");
   }
